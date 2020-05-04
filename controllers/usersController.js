@@ -1,20 +1,5 @@
 const User = require('../models/User')
 
-<<<<<<< HEAD
-exports.getUsers = async (req, res, next) => {
-  // Schreib hier code um alle Kunden aus der users-Collection zu holen
-  
-};
-
-exports.getUser = async (req, res, next) => {
-  const { id } = req.params;
-  // Schreib hier code um den Kunden mit der id aus params aus der users-Collection zu holen
-  
-  res.status(200).send(user);
-};
-
-exports.deleteUser = async (req, res, next) => {
-=======
 const mailer             = require('nodemailer');
 const {validationResult} = require('express-validator')
 const createError        = require("http-errors")
@@ -101,29 +86,12 @@ exports.getUser = async (req, res, next) => {
 */
 
 exports.deleteUser = (req, res, next) => {
->>>>>>> origin/node-mailer
   const { id } = req.params;
   // Schreib hier code um den Kunden mit der id aus params aus der users-Collection zu löschen
   
   res.status(200).send(user);
 };
 
-<<<<<<< HEAD
-exports.updateUser = async (req, res, next) => {
-  const { id } = req.params;
-  const dt = req.body;
-  // Schreib hier code um den User mit der id aus params in der users-Collection mit den Daten aus req.body zu aktualisieren
-  
-  res.status(200).send(user);
-};
-
-exports.addUser = async (req, res, next) => {
-  const userData = req.body;
-  // Schreib hier code um die Daten des neuen Kunden aus req.body in der users-Collection zu speichern
-  
-  
-  res.status(200).send(user);
-=======
 /*
 ██    ██ ██████  ██████   █████  ████████ ███████
 ██    ██ ██   ██ ██   ██ ██   ██    ██    ██
@@ -361,5 +329,4 @@ exports.changeUserPassword = async (req, res, next) => {
     user.save();
     res.json({status:'success'});
   } catch (e) { next(e); }
->>>>>>> origin/node-mailer
 };

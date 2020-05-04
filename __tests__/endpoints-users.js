@@ -42,12 +42,17 @@ describe('Users Endpoints', () => {
     })
 
     test('should delete user', async done =>{
+<<<<<<< HEAD
         const fakeUser = {
+=======
+        const fakeUser = new User({
+>>>>>>> origin/node-mailer
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName(),
             email: faker.internet.email(),
             password: faker.internet.password(),
             role: 'User'
+<<<<<<< HEAD
         }
         let checkUser = new User(fakeUser)
         await checkUser.save()
@@ -56,6 +61,13 @@ describe('Users Endpoints', () => {
             expect.objectContaining(fakeUser)
         )
         const res = await request(app).delete(`/users/${checkUser.id}`).set('x-auth', `${token}`)
+=======
+        })
+        await fakeUser.save()
+        let checkUser = await User.findById(fakeUser.id)
+        expect(checkUser.toObject()).toEqual(fakeUser.toObject())
+        const res = await request(app).delete(`/users/${fakeUser.id}`).set('x-auth', `${token}`)
+>>>>>>> origin/node-mailer
         expect(res.statusCode).toBe(200)
         checkUser = User.findOne(fakeUser.id)
         expect(checkUser.length).toBeFalsy()

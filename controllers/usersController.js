@@ -9,10 +9,7 @@ const User = require('../models/User')
 const { SHA512 } = require('../lib/crypto.js');
 const encryption = require('../lib/validation/encryption')
 
-// Der transporter ist ein teil von nodemailer
-//   seine aufgabe ist es eMails zu verschicken
-//   dafür braucht er die zugangsdaten von einem
-//   echten eMail-postfach
+
 const transporter = mailer.createTransport({
   host: process.env.MAIL_SERVER,      // der mailserver
   port: process.env.MAIL_PORT || 465, // mailserver port
@@ -22,29 +19,15 @@ const transporter = mailer.createTransport({
   }
 });
 
-// wenn der benutyer einen Link bekommt um sein passwort zu resetten
-//   oder sein konto zu aktivieren, soll dieser link nur (tokenTimeout)
-//   millisekunden gültig sein
+
 const tokenTimeout = 3600000; // in millisekunden
 
-//  benutze die SHA512 hashfunktion damit ein einheitlicher,
-//  unleserlicher String herauskommt
-//      "!record-shop!!!" : salt (sollte für jede Seite anders sein)
-//      Date.now()        : verändert sich laufend (zufallsfaktor)
-//      user.email        : eindeutigkeit für user
-// ae97658ea6547ea3447ea5f37e3a7e3a54e365a4e3f65ae365e3a65ef365ae33ae653
+
 
 function localHash(data){
   return SHA512( "!record-shop!!!" + Date.now() + data );
 }
 
-/*
- ██████  ███████ ████████
-██       ██         ██
-██   ███ █████      ██
-██    ██ ██         ██
- ██████  ███████    ██
-*/
 
 exports.getUsers = async (req, res, next) => {
   // Schreib hier code um alle Kunden aus der users-Collection zu holen
@@ -52,13 +35,6 @@ exports.getUsers = async (req, res, next) => {
   res.status(200).send(users);
 };
 
-/*
- ██████  ███████ ████████
-██       ██         ██
-██   ███ █████      ██
-██    ██ ██         ██
- ██████  ███████    ██
-*/
 
 exports.getUser = async (req, res, next) => {
   const { user } = req;
@@ -77,13 +53,7 @@ exports.getUser = async (req, res, next) => {
 
 };
 
-/*
-██████  ███████ ██      ███████ ████████ ███████
-██   ██ ██      ██      ██         ██    ██
-██   ██ █████   ██      █████      ██    █████
-██   ██ ██      ██      ██         ██    ██
-██████  ███████ ███████ ███████    ██    ███████
-*/
+
 
 exports.deleteUser = (req, res, next) => {
   const { id } = req.params;
@@ -92,13 +62,6 @@ exports.deleteUser = (req, res, next) => {
   res.status(200).send(user);
 };
 
-/*
-██    ██ ██████  ██████   █████  ████████ ███████
-██    ██ ██   ██ ██   ██ ██   ██    ██    ██
-██    ██ ██████  ██   ██ ███████    ██    █████
-██    ██ ██      ██   ██ ██   ██    ██    ██
- ██████  ██      ██████  ██   ██    ██    ███████
-*/
 
 exports.updateUser = async (req, res, next) => {
   try {
@@ -113,13 +76,7 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 
-/*
- █████  ██████  ██████
-██   ██ ██   ██ ██   ██
-███████ ██   ██ ██   ██
-██   ██ ██   ██ ██   ██
-██   ██ ██████  ██████
-*/
+
 
 exports.addUser = async (req, res, next) => {
   try {
@@ -162,14 +119,6 @@ exports.addUser = async (req, res, next) => {
 
 };
 
-/*
-██       ██████   ██████  ██ ███    ██
-██      ██    ██ ██       ██ ████   ██
-██      ██    ██ ██   ███ ██ ██ ██  ██
-██      ██    ██ ██    ██ ██ ██  ██ ██
-███████  ██████   ██████  ██ ██   ████
-*/
-
 exports.loginUser = async (req, res, next) => {
   const { email, password } = req.body
   try {
@@ -211,13 +160,7 @@ exports.loginUser = async (req, res, next) => {
 
 }
 
-/*
- █████   ██████ ████████ ██ ██    ██  █████  ████████ ███████
-██   ██ ██         ██    ██ ██    ██ ██   ██    ██    ██
-███████ ██         ██    ██ ██    ██ ███████    ██    █████
-██   ██ ██         ██    ██  ██  ██  ██   ██    ██    ██
-██   ██  ██████    ██    ██   ████   ██   ██    ██    ███████
-*/
+
 
 exports.activateUser = async function( req, res, next ){
 
@@ -252,13 +195,7 @@ exports.activateUser = async function( req, res, next ){
   } else res.status(401).json({status:'failed'});
 }
 
-/*
-██████  ███████ ███████ ███████ ████████
-██   ██ ██      ██      ██         ██
-██████  █████   ███████ █████      ██
-██   ██ ██           ██ ██         ██
-██   ██ ███████ ███████ ███████    ██
-*/
+
 
 exports.resetUserPassword = async function( req, res, next ){
 
@@ -295,13 +232,6 @@ exports.resetUserPassword = async function( req, res, next ){
   }
 }
 
-/*
- ██████ ██   ██  █████  ███    ██  ██████  ███████ ██████  ██     ██
-██      ██   ██ ██   ██ ████   ██ ██       ██      ██   ██ ██     ██
-██      ███████ ███████ ██ ██  ██ ██   ███ █████   ██████  ██  █  ██
-██      ██   ██ ██   ██ ██  ██ ██ ██    ██ ██      ██      ██ ███ ██
- ██████ ██   ██ ██   ██ ██   ████  ██████  ███████ ██       ███ ███
-*/
 
 exports.changeUserPassword = async (req, res, next) => {
   try {
